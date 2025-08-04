@@ -45,3 +45,15 @@ export const getRandomInterviewCover = () => {
   const randomIndex = Math.floor(Math.random() * interviewCovers.length);
   return `/covers${interviewCovers[randomIndex]}`;
 };
+
+export const formatCategoryName = (key: string): string => {
+  const mapping: Record<string, string> = {
+    communicationSkills: "Communication Skills",
+    technicalKnowledge: "Technical Knowledge",
+    problemSolving: "Problem Solving",
+    culturalFit: "Cultural & Role Fit",
+    confidenceAndClarity: "Confidence & Clarity",
+  };
+
+  return mapping[key] || key;
+};

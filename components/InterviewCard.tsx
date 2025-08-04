@@ -6,7 +6,7 @@ import { Button } from "./ui/button";
 
 import { cn, getRandomInterviewCover } from "@/lib/utils";
 import DisplayTechIcons from "./DisplayTechIcons";
-// import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
+import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
 const InterviewCard = async ({
   interviewId,
@@ -16,19 +16,13 @@ const InterviewCard = async ({
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  const feedback = {
-    createdAt: "2024-03-15T10:00:00Z",
-    totalScore: 85,
-    finalAssessment: "Great job! You demonstrated strong technical skills.",
-  };
-  // const feedback
-
-  // userId && interviewId
-  //   ? await getFeedbackByInterviewId({
-  //       interviewId,
-  //       userId,
-  //     })
-  //   : null;
+  const feedback =
+    userId && interviewId
+      ? await getFeedbackByInterviewId({
+          interviewId,
+          userId,
+        })
+      : null;
 
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
 
@@ -100,14 +94,12 @@ const InterviewCard = async ({
           <Button className="btn-primary">
             <Link
               href={
-                `/interview/${interviewId}`
-                // feedback
-                //   ? `/interview/${interviewId}/feedback`
-                //   : `/interview/${interviewId}`
+                feedback
+                  ? `/interview/${interviewId}/feedback`
+                  : `/interview/${interviewId}`
               }
             >
-              {/* {feedback ? "Check Feedback" : "View Interview"} */}
-              {"View Interview"}
+              {feedback ? "Check Feedback" : "View Interview"}
             </Link>
           </Button>
         </div>

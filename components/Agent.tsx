@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { vapi } from "@/lib/vapi.sdk";
 import { interviewer } from "@/constants";
-// import { createFeedback } from "@/lib/actions/general.action";
+import { createFeedback } from "@/lib/actions/general.action";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -83,6 +83,7 @@ const Agent = ({
   }, []);
 
   useEffect(() => {
+    // (async () => {
     if (messages.length > 0) {
       setLastMessage(messages[messages.length - 1].content);
     }
@@ -90,17 +91,14 @@ const Agent = ({
     const handleGenerateFeedback = async (messages: SavedMessage[]) => {
       console.log("handleGenerateFeedback");
 
-      // const { success, feedbackId: id } = await createFeedback({
-      //   interviewId: interviewId!,
-      //   userId: userId!,
-      //   transcript: messages,
-      //   feedbackId,
-      // });
+      const { success, feedbackId: id } = await createFeedback({
+        interviewId: interviewId!,
+        userId: userId!,
+        transcript: messages,
+        feedbackId,
+      });
 
-      const { success, id } = {
-        success: true,
-        id: "mock-feedback-id", // Mock ID for demonstration
-      };
+      console.log("success", success, "feedbackId", id);
 
       if (success && id) {
         router.push(`/interview/${interviewId}/feedback`);
@@ -117,6 +115,7 @@ const Agent = ({
         handleGenerateFeedback(messages);
       }
     }
+    // })();
   }, [messages, callStatus, feedbackId, interviewId, router, type, userId]);
 
   const handleCall = async () => {
